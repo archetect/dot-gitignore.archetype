@@ -1,0 +1,40 @@
+{%- if "Java" in ignores 
+    or "Rust" in ignores
+-%}
+### Builds ###
+target/
+
+{% endif %}
+
+{%- if "Rust" in ignores -%}
+### Rust ###
+# rustfmt
+**/*.rs.bk
+#MSVC
+*.pdb{% if rust_library == true %}
+# Remove for executables, leave for libraries
+Cargo.lock{% endif %}
+
+{% endif %}
+
+{%- if "IDEA" in ignores 
+    or "Java" in ignores
+    or "Rust" in ignores
+-%}
+### IntelliJ IDEA project files ###
+.idea/
+*.iws
+*.ipr
+*.iml
+
+{% endif %}
+
+{%- if "Eclipse" in ignores
+    or "Java" in ignores
+-%}
+### Eclipse project files ###
+.project
+.classpath
+.settings/
+
+{% endif %}
