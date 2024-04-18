@@ -3,6 +3,8 @@ let context = #{};
 context.ignores = prompt("Ignore Categories:", #{
   type: MultiSelect([
     "Rust",
+    "RustBinary",
+    "RustLibrary",
     "Java",
     "JavaScript",
     "Python",
@@ -13,18 +15,10 @@ context.ignores = prompt("Ignore Categories:", #{
     "Vim",
     "ReactJS",
     "NextJS",
+    "Target",
   ]),
   answer_key: "ignore",
 });
-
-if context.ignores.contains("Rust") {
-    context.rust_library = prompt("Is this a Rust library?", #{
-      defaults_with: true,
-      type: Bool, 
-      optional: true,
-      answer_key: "rust_library",
-    });
-}
 
 render(Directory("contents"), context, #{
   if_exists: overwrite_policy(),

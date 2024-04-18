@@ -1,17 +1,23 @@
 {%- if "Java" in ignores 
     or "Rust" in ignores
+    or "RustLibrary" in ignores
+    or "RustBinary" in ignores
+    or "Target" in ignores
 -%}
 ### Builds ###
 target/
 
 {% endif %}
 
-{%- if "Rust" in ignores -%}
+{%- if "Rust" in ignores
+    or "RustLibrary" in ignores
+    or "RustBinary" in ignores
+-%}
 ### Rust ###
 # rustfmt
 **/*.rs.bk
 #MSVC
-*.pdb{% if rust_library == true %}
+*.pdb{% if "RustLibrary" in ignores and not "RustBinary" in ignores %}
 # Remove for executables, leave for libraries
 Cargo.lock{% endif %}
 
@@ -20,6 +26,8 @@ Cargo.lock{% endif %}
 {%- if "IDEA" in ignores 
     or "Java" in ignores
     or "Rust" in ignores
+    or "RustLibrary" in ignores
+    or "RustBinary" in ignores
 -%}
 ### IntelliJ IDEA project files ###
 .idea/

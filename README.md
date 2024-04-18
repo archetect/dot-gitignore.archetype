@@ -11,44 +11,45 @@ To generate content from this Archetype, copy and execute the following command:
   archetect render https://github.com/archetect/dot-gitignore.archetype.git
 ```
 
-## Archetype Layout
+## Usage
 
-Archetect has flexibility in how an archetype is laid out. However, the defaults,
-as used in this archetype, should cover the vast majority of cases.
+This archetype is designed to be used as a component library in parent archetypes to generate .gitignore files for multiple
+languages and IDEs.
 
-### Archetype Configuration
+In order to use this archetype, you'll first need to register it as a component in your `archetype.yaml` manifest:
 
-The `~/.archetype.yaml` manifest contains configuration for this archetype,
-including:
+```yaml
+---
+description: "Example Archetype"
+authors: ["John Doe <john.doe@example.com"]
+languages: ["Rust"]
+frameworks: ["axum", "tracing", "seaorm"]
+tags: ["service", "microservice"]
 
-- The minimum `Archetect` version required to render this archetype (required).
-- Any component Archetypes this archetype may compose (optional).
-- Customized locations for the main script, content root directory, templating
-  macros and layouts directory, and scripting modules directory (optional).
+requires:
+  archetect: 2.0.0
 
-### Archetype Script
+components:
+  gitignore: https://github.com/archetect/dot-gitignore.archetype.git
+```
 
-The `./archetype.rhai` script contains the logic for building up a context model,
-usually through interactive prompting, and rendering content.
-
-### Contents Directory
-
-The `./contents` directory contains the files and directories, by convention,
-that will be rendered into the newly generated archetype.
-
-This directory can be referenced by a `Directory` type in Rhai, and rendered.
-You may also break the contents up into sub-directories within this directory
-for more complex archetypes, or archetypes that require conditional rendering.
+Then, you can use this component to render a `.gitignore` file, specifying what `ingores` should be included:
 
 ```rhai
-let context = #{};
+let context = #{}
 
-context.first_name = "John";
-context.last_name = "Doe";
+context["project-name"] = prompt("Project Name");
 
-// Render everything in ./contents
-render(Directory("contents"), context);
-
-// Only render ./contents/manifests
-render(Directory("contents/manifests"), context);
+render(Archetype("gitignore"), Path(context["project-name"), #{
+    ignore: ["Rust", "IDEA"]
+});
 ```
+
+Currently supported/implemented `ingores`:
+- Rust
+- RustBinary
+- RustLibrary
+- Java
+- IDEA
+- Eclipse
+- Target
