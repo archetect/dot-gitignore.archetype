@@ -40,7 +40,7 @@ let context = #{}
 
 context["project-name"] = prompt("Project Name");
 
-render(Archetype("gitignore"), Path(context["project-name"), #{
+render(Archetype("gitignore"), Path(context["project-name"]), #{
     ignore: ["Rust", "IDEA"]
 });
 ```
